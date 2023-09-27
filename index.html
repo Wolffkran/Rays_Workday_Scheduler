@@ -18,6 +18,29 @@
         <!-- Create time-block elements dynamically from 9 AM to 5 PM -->
         <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js" integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
         <script>
+            // Function to save user input with a timestamp
+            function saveUserInput() {
+                var userInput = this.parentNode.querySelector('.description').value;
+                var timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss'); // Format the timestamp as needed
+                var dataToSave = { userInput, timestamp };
+                localStorage.setItem(this.parentNode.id, JSON.stringify(dataToSave));
+            }
+
+            // Function to retrieve and display saved data
+            function displaySavedData() {
+                for (var hour = 9; hour <= 17; hour++) {
+                    var savedDataString = localStorage.getItem('hour-' + hour);
+                    var timeBlock = document.getElementById('hour-' + hour);
+
+                    if (savedDataString) {
+                        var savedData = JSON.parse(savedDataString);
+                        var formattedTimestamp = dayjs(savedData.timestamp).format('MMM D, YYYY [at] h:mm A'); // Format timestamp for display
+                        timeBlock.querySelector('.description').value = savedData.userInput;
+                    }
+                }
+            }
+
+            // Create time-block elements dynamically from 9 AM to 5 PM
             var currentTime = dayjs().hour();
 
             for (var hour = 9; hour <= 17; hour++) {
@@ -41,12 +64,17 @@
                     </button>
                 `;
 
+                timeBlock.querySelector('.saveBtn').addEventListener('click', saveUserInput);
+
                 document.body.appendChild(timeBlock);
             }
 
-             /* Display the current date in the header */
+            /* Display the current date in the header */
             var currentDate = dayjs().format('dddd, MMM D, YYYY [at] h:mm:ss A');
             document.getElementById('currentDay').textContent = currentDate;
+
+            // Display saved data when the page loads
+            displaySavedData();
         </script>
     </div>
 
