@@ -21,7 +21,7 @@
             // Function to save user input with a timestamp
             function saveUserInput() {
                 var userInput = this.parentNode.querySelector('.description').value;
-                var timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss'); // Format the timestamp as needed
+                var timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss'); 
                 var dataToSave = { userInput, timestamp };
                 localStorage.setItem(this.parentNode.id, JSON.stringify(dataToSave));
             }
@@ -34,7 +34,7 @@
 
                     if (savedDataString) {
                         var savedData = JSON.parse(savedDataString);
-                        var formattedTimestamp = dayjs(savedData.timestamp).format('MMM D, YYYY [at] h:mm A'); // Format timestamp for display
+                        var formattedTimestamp = dayjs(savedData.timestamp).format('MMM D, YYYY [at] h:mm A'); 
                         timeBlock.querySelector('.description').value = savedData.userInput;
                     }
                 }
